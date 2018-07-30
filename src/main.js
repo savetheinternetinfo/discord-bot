@@ -90,4 +90,11 @@ client.on("message", msg => {
       }
 });
 
-client.login(config.bot_token);
+log.info("Attempting token login...");
+client.login(config.bot_token).then(function(){
+    log.info("Token login was successful!");
+}, function(err){
+    log.error("Token login was not successful:\n\n" + err + "\n");
+    log.error("Shutting down due to invalid login...\n\n");
+    process.exit(1);
+});
