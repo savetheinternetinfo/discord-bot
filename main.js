@@ -11,7 +11,7 @@ client.on('message', msg => {
 
   var content = msg.content,
       author  = msg.author,
-      chan    = msg.channel;
+      chan    = msg.channel,
       log     = config.log;
   
   if (author.id != client.user.id && content.startsWith(config.prefix)) {
