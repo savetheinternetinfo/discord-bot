@@ -1,6 +1,7 @@
 "use strict";
 
 let fs      = require("fs");
+let path    = require("path");
 let Discord = require("discord.js");
 
 let conf    = require("./utils/configurator");
@@ -27,8 +28,40 @@ client.on("ready", () => {
     client.user.setActivity(config.bot_status);
 });
 
-client.on("message", msg => {
-    let content = msg.content,
+client.on("message", message => {
+    if (message.author.bot) return;
+
+    let args    = message.content.slice((config.command_prefix).length).trim().split(/ +/g);
+    let command = args.shift().toLowerCase();
+
+    if (message.content.indexOf(config.command_prefix) === 0 && message.channel.type != "dm"){
+        let commandArr = [];
+        let commandDir = path.resolve("./src/commands");
+
+        fs.readdirSync(commandDir).forEach(file => { commandArr.push(file.toLowerCase()); });
+
+        if (!commandArr.includes(command.toLowerCase() + ".js")){
+            return message.channel.send(
+                "Hello, " + message.author + "!\n\n" +
+                "It seems like you entered an unrecognized command (" + command + ").\n\n" +
+                "Please use " + config.command_prefix + "help for a complete list of commands! :)"
+            );
+        }
+
+        let commandHandler = require(path.join(commandDir, command));
+
+        commandFile.run(client, message, args, function(err){
+            if (err){
+                message.channel.send(
+                    "Sorry, there has been an error =(\n\n" +
+                    "Please ask @371724846205239326 for help."
+                );
+                log.error(err);
+            }
+        });
+    }
+
+    /*let content = msg.content,
         author  = msg.author,
         chan    = msg.channel,
         log     = config.log_channel_id;
@@ -87,7 +120,7 @@ client.on("message", msg => {
                     break;
               }
           }
-      }
+      }*/
 });
 
 log.info("Attempting token login...");
