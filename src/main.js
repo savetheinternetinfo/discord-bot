@@ -29,7 +29,7 @@ client.on("ready", () => {
 });
 
 client.on("message", message => {
-    if (message.author.bot) return;
+    if (message.author.bot || message.content.replace(/\./g, "") == "") return;
 
     let args    = message.content.slice((config.command_prefix).length).trim().split(/ +/g);
     let command = args.shift().toLowerCase();
