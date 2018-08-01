@@ -50,15 +50,18 @@ client.on("message", message => {
 
         let commandHandler = require(path.join(commandDir, command));
 
-        commandHandler.run(client, message, args, function(err){
-            if (err){
-                message.channel.send(
-                    "Sorry, there has been an error =(\n\n" +
-                    "Please ask <@371724846205239326> for help."
-                );
-                log.error(err);
-            }
-        });
+        try {
+            commandHandler.run(client, message, args, function(err){
+                if (err) message.channel.send(err);
+            });
+        }
+        catch (err){
+            message.channel.send(
+                "Sorry, there has been an error =(\n\n" +
+                "Please ask <@371724846205239326> for help."
+            );
+            log.error(err);
+        }
     }
 });
 
