@@ -29,6 +29,11 @@ let github = githook({
     secret: config.github_hook.secret
 });
 
+let puts = function(err, stdout, stderr){
+    if (err) return log.error(err);
+    log.info(stdout);
+};
+
 client.on("ready", () => {
     log.info("Running...");
     log.info(`Got ${client.users.size} users, in ${client.channels.size} channels of ${client.guilds.size} guilds`);
