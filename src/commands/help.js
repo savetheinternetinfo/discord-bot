@@ -11,7 +11,7 @@ exports.run = (client, message, args, callback) => {
     let commandArr = [];
     let commandDir = path.resolve("./src/commands");
 
-    fs.readdirSync(commandDir).forEach(file => { commandArr.push(config.command_prefix + file.toLowerCase().replace(/\.js/gi, "")); });
+    fs.readdirSync(commandDir).forEach(file => { commandArr.push(config.bot_settings.command_prefix + file.toLowerCase().replace(/\.js/gi, "")); });
 
     let author = message.author;
     message.channel.send(
