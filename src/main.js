@@ -48,20 +48,25 @@ client.on("message", message => {
         fs.readdirSync(commandDir).forEach(file => { commandArr.push(file.toLowerCase()); });
 
         if (!commandArr.includes(command.toLowerCase() + ".js")){
+            log.warn("User \"" + message.author.tag + "\" (" + message.author + ") " + "performed an unknown command: " + command);
             return message.channel.send(
                 "Hello, " + message.author + "!\n\n" +
                 "It seems like you entered an unrecognized command (" + command + ").\n\n" +
                 "Please use " + config.bot_settings.command_prefix + "help for a complete list of commands! :)"
             );
         }
+        else log.info("User \"" + message.author.tag + "\" (" + message.author + ") " + "performed command: " + command);
 
         let commandHandler = require(path.join(commandDir, command));
 
         try {
             commandHandler.run(client, message, args, function(err){
+                //Non-Exception Error returned by the command (e.g.: Missing Argument)
                 if (err) message.channel.send(err);
             });
         }
+
+        //Exception returned by the command handler
         catch (err){
             message.channel.send(
                 "Sorry, there has been an error =(\n\n" +
