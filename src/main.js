@@ -23,6 +23,8 @@ console.log(
 
 log.info("Starting bot...");
 
+conf.init();
+
 let github = githook({
     port: config.github_hook.port,
     path: config.github_hook.path,

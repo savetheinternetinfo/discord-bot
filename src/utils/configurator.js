@@ -7,6 +7,21 @@ let log = require("./logger");
 
 const packagefile = require("../../package.json");
 const configPath  = path.resolve("config.json");
+const datadir     = path.resolve("tempdata");
+
+let init = function(){
+    log.info("Checking data directory...");
+    if (!fs.existsSync(datadir)){
+        log.warn("Data directory does not exist. Creating...");
+        try { fs.mkdirSync(datadir); }
+        catch (err){
+            log.error("Cannot create Data directory: " + err);
+            process.exit(1);
+        }
+        finally { log.info("Data directory successfully created!"); }
+    }
+    else log.info("Found Data directory!");
+};
 
 let validJson = function(obj){
     try { JSON.parse(obj); }
@@ -39,6 +54,7 @@ let getVersion = function(){ return packagefile.version; };
 let getName    = function(){ return packagefile.name;    };
 
 module.exports = {
+    init:       init,
     getConfig:  getconfig,
     getVersion: getVersion,
     getName:    getName
