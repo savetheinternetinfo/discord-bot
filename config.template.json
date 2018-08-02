@@ -1,6 +1,20 @@
 {
-    "command_prefix": ".",
-    "bot_token": "",
-    "log_channel_id": "466643167819857951",
-    "bot_status": "Saving the internet."
+    "auth": {
+        "bot_token": ""
+    },
+    "bot_settings": {
+        "command_prefix": ".",
+        "bot_status": "Saving the internet."
+    },
+    "logging": {
+        "channel_id": "466643167819857951"
+    },
+    "github_hook": {
+        "port": 1337,
+        "path": "/githook",
+        "secret": "",
+        "commands": [
+            "git pull"
+        ]
+    }
 }
