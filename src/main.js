@@ -3,6 +3,7 @@
 let fs      = require("fs");
 let path    = require("path");
 let Discord = require("discord.js");
+let githook = require("githubhook");
 
 let conf    = require("./utils/configurator");
 let log     = require("./utils/logger");
@@ -22,19 +23,25 @@ console.log(
 
 log.info("Starting bot...");
 
+let github = githook({
+    port: config.github_hook.port,
+    path: config.github_hook.path,
+    secret: config.github_hook.secret
+});
+
 client.on("ready", () => {
     log.info("Running...");
     log.info(`Got ${client.users.size} users, in ${client.channels.size} channels of ${client.guilds.size} guilds`);
-    client.user.setActivity(config.bot_status);
+    client.user.setActivity(config.bot_settings.bot_status);
 });
 
 client.on("message", message => {
     if (message.author.bot || message.content.replace(/\./g, "") == "") return;
 
-    let args    = message.content.slice((config.command_prefix).length).trim().split(/ +/g);
+    let args    = message.content.slice((config.bot_settings.command_prefix).length).trim().split(/ +/g);
     let command = args.shift().toLowerCase();
 
-    if (message.content.indexOf(config.command_prefix) === 0 && message.channel.type != "dm"){
+    if (message.content.indexOf(config.bot_settings.command_prefix) === 0 && message.channel.type != "dm"){
         let commandArr = [];
         let commandDir = path.resolve("./src/commands");
 
@@ -44,7 +51,7 @@ client.on("message", message => {
             return message.channel.send(
                 "Hello, " + message.author + "!\n\n" +
                 "It seems like you entered an unrecognized command (" + command + ").\n\n" +
-                "Please use " + config.command_prefix + "help for a complete list of commands! :)"
+                "Please use " + config.bot_settings.command_prefix + "help for a complete list of commands! :)"
             );
         }
 
@@ -65,8 +72,16 @@ client.on("message", message => {
     }
 });
 
+github.on("push", function(repo, data){
+    log.info(`Received push event for ${repo}`);
+    let command = "cd " + path.join(__dirname, "..");
+    let cmdArr = config.github_hook.commands;
+    for (let i in cmdArr) command += " && " + cmdArr[i];
+    exec(command, puts);
+});
+
 log.info("Attempting token login...");
-client.login(config.bot_token).then(function(){
+client.login(config.auth.bot_token).then(function(){
     log.info("Token login was successful!");
 }, function(err){
     log.error("Token login was not successful:\n\n" + err + "\n");
