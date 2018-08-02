@@ -43,7 +43,7 @@ client.on("ready", () => {
 });
 
 client.on("message", message => {
-    if (message.author.bot || message.content.replace(/\./g, "") == "") return;
+    if (message.author.bot || message.content.replace(config.bot_settings.command_prefix, "").replace(/\s/g, "").replace(/\./g, "") == "") return;
 
     let args    = message.content.slice((config.bot_settings.command_prefix).length).trim().split(/ +/g);
     let command = args.shift().toLowerCase();
