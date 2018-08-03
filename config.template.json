@@ -7,7 +7,11 @@
         "bot_status": "Saving the internet."
     },
     "logging": {
-        "channel_id": "466643167819857951"
+        "channel_id": "466643167819857951",
+        "permitted_roles": [
+            "teamleiter",
+            "admin"
+        ]
     },
     "github_hook": {
         "port": 1337,
