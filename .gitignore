@@ -4,6 +4,9 @@ config.json
 # datadir
 tempdata/
 
+# logdir
+logs/
+
 # Logs
 logs
 *.log
