@@ -36,14 +36,20 @@ let puts = function(err, stdout, stderr){
     log.info(stdout);
 };
 
+process.on("unhandledRejection", function(err, promise){
+    log.error("Unhandled rejection (promise: " + promise + ", reason: " + err, ")");
+});
+
 client.on("ready", () => {
     log.info("Running...");
     log.info(`Got ${client.users.size} users, in ${client.channels.size} channels of ${client.guilds.size} guilds`);
     client.user.setActivity(config.bot_settings.bot_status);
 });
 
+client.on("error", log.error);
+
 client.on("message", message => {
-    if (message.author.bot || message.content.replace(/\./g, "") == "") return;
+    if (message.author.bot || message.content.replace(config.bot_settings.command_prefix, "").replace(/\s/g, "").replace(/\./g, "") == "") return;
 
     let args    = message.content.slice((config.bot_settings.command_prefix).length).trim().split(/ +/g);
     let command = args.shift().toLowerCase();

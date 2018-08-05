@@ -7,20 +7,26 @@ let log = require("./logger");
 
 const packagefile = require("../../package.json");
 const configPath  = path.resolve("config.json");
-const datadir     = path.resolve("tempdata");
 
-let init = function(){
-    log.info("Checking data directory...");
-    if (!fs.existsSync(datadir)){
-        log.warn("Data directory does not exist. Creating...");
-        try { fs.mkdirSync(datadir); }
+let createDir = function(name){
+    log.info("Checking '" + name + "' directory...");
+    let pathOf = path.resolve(name);
+
+    if (!fs.existsSync(pathOf)){
+        log.warn("'" + name + "' directory does not exist. Creating...");
+        try { fs.mkdirSync(pathOf); }
         catch (err){
-            log.error("Cannot create Data directory: " + err);
+            log.error("Cannot create '" + name + "' directory: " + err);
             process.exit(1);
         }
-        finally { log.info("Data directory successfully created!"); }
+        finally { log.info("'" + name + "' directory successfully created!"); }
     }
-    else log.info("Found Data directory!");
+    else log.info("Found '" + name + "' directory!");
+};
+
+let init = function(){
+    createDir("tempdata");
+    createDir("logs");
 };
 
 let validJson = function(obj){
