@@ -2,11 +2,12 @@
 
 let fs      = require("fs");
 let path    = require("path");
+let http    = require("http");
 let Discord = require("discord.js");
-let githook = require("githubhook");
 
 let conf    = require("./utils/configurator");
 let log     = require("./utils/logger");
+let hook    = require("./utils/hook");
 
 const client = new Discord.Client();
 const config = conf.getConfig();
@@ -24,17 +25,7 @@ console.log(
 log.info("Starting bot...");
 
 conf.init();
-
-let github = githook({
-    port: config.github_hook.port,
-    path: config.github_hook.path,
-    secret: config.github_hook.secret
-});
-
-let puts = function(err, stdout, stderr){
-    if (err) return log.error(err);
-    log.info(stdout);
-};
+hook();
 
 process.on("unhandledRejection", function(err, promise){
     log.error("Unhandled rejection (promise: " + promise + ", reason: " + err, ")");
@@ -49,7 +40,13 @@ client.on("ready", () => {
 client.on("error", log.error);
 
 client.on("message", message => {
-    if (message.author.bot || message.content.replace(config.bot_settings.command_prefix, "").replace(/\s/g, "").replace(/\./g, "") == "") return;
+    let nonBiased = message.content
+        .replace(config.bot_settings.command_prefix, "")
+        .replace(/\s/g, "")
+        .replace(/\./g, "")
+        .replace(/\_/g, "");
+
+    if (message.author.bot || nonBiased == "") return;
 
     let args    = message.content.slice((config.bot_settings.command_prefix).length).trim().split(/ +/g);
     let command = args.shift().toLowerCase();
@@ -88,14 +85,6 @@ client.on("message", message => {
             log.error(err);
         }
     }
-});
-
-github.on("push", function(repo, data){
-    log.info(`Received push event for ${repo}`);
-    let command = "cd " + path.join(__dirname, "..");
-    let cmdArr = config.github_hook.commands;
-    for (let i in cmdArr) command += " && " + cmdArr[i];
-    exec(command, puts);
 });
 
 log.info("Attempting token login...");
