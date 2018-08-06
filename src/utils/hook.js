@@ -53,7 +53,7 @@ module.exports = function(){
             for (let i in cmdArr) command += " && " + cmdArr[i];
             exec(command, puts);
 
-            res.writeHead(400, {
+            res.writeHead(200, {
                 "Content-Type": "application/json"
             });
 
