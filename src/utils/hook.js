@@ -23,9 +23,7 @@ module.exports = function(){
             "Content-Type": "application/json"
         });
 
-        let path = url.parse(req.url).pathname;
-
-        if (path != config.github_hook.path || req.method != "POST"){
+        if (url.parse(req.url).pathname != config.github_hook.path || req.method != "POST"){
            let data = JSON.stringify({
                "error": "invalid request"
            });
