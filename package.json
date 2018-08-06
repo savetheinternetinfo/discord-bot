@@ -11,6 +11,6 @@
   "license": "ISC",
   "dependencies": {
     "discord.js": "^11.3.2",
-    "githubhook": "^1.9.3"
+    "github-webhook-handler": "^0.7.1"
   }
 }
