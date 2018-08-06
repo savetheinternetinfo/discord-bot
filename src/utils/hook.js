@@ -1,11 +1,11 @@
 let http   = require("http");
-let spawn  = require("child_process").spawn;
 let crypto = require("crypto");
 let path   = require("path");
 let url    = require("url");
+let exec   = require("child_process").exec;
 
-let conf    = require("./configurator");
-let log     = require("./logger");
+let conf = require("./configurator");
+let log  = require("./logger");
 
 const config = conf.getConfig();
 
