@@ -1,6 +1,7 @@
 let http   = require("http");
 let spawn  = require("child_process").spawn;
 let crypto = require("crypto");
+let path   = require("path");
 let url    = require("url");
 
 let conf    = require("./configurator");
