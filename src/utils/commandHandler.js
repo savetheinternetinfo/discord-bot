@@ -50,6 +50,8 @@ let commandHandler = function(message, client, isModCommand, callback){
         );
         log.error(err);
     }
+
+    callback();
 };
 
 module.exports = commandHandler;
