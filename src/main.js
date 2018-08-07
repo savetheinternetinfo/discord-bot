@@ -5,9 +5,10 @@ let path    = require("path");
 let http    = require("http");
 let Discord = require("discord.js");
 
-let conf    = require("./utils/configurator");
-let log     = require("./utils/logger");
-let hook    = require("./utils/hook");
+let conf       = require("./utils/configurator");
+let log        = require("./utils/logger");
+let hook       = require("./utils/hook");
+let cmdHandler = require("./utils/commandHandler");
 
 const client = new Discord.Client();
 const config = conf.getConfig();
@@ -41,48 +42,24 @@ client.on("error", log.error);
 
 client.on("message", message => {
     let nonBiased = message.content
-        .replace(config.bot_settings.command_prefix, "")
+        .replace(config.bot_settings.prefix.command_prefix, "")
+        .replace(config.bot_settings.prefix.mod_prefix, "")
         .replace(/\s/g, "")
         .replace(/\./g, "")
         .replace(/\_/g, "");
 
     if (message.author.bot || nonBiased == "") return;
 
-    let args    = message.content.slice((config.bot_settings.command_prefix).length).trim().split(/ +/g);
-    let command = args.shift().toLowerCase();
-
-    if (message.content.indexOf(config.bot_settings.command_prefix) === 0 && message.channel.type != "dm"){
-        let commandArr = [];
-        let commandDir = path.resolve("./src/commands");
-
-        fs.readdirSync(commandDir).forEach(file => { commandArr.push(file.toLowerCase()); });
-
-        if (!commandArr.includes(command.toLowerCase() + ".js")){
-            log.warn("User \"" + message.author.tag + "\" (" + message.author + ") " + "performed an unknown command: " + command);
-            return message.channel.send(
-                "Hello, " + message.author + "!\n\n" +
-                "It seems like you entered an unrecognized command (" + command + ").\n\n" +
-                "Please use " + config.bot_settings.command_prefix + "help for a complete list of commands! :)"
-            );
-        }
-        else log.info("User \"" + message.author.tag + "\" (" + message.author + ") " + "performed command: " + command);
-
-        let commandHandler = require(path.join(commandDir, command));
-
-        try {
-            commandHandler.run(client, message, args, function(err){
-                //Non-Exception Error returned by the command (e.g.: Missing Argument)
+    if (message.channel.type != "dm"){
+        if (message.content.indexOf(config.bot_settings.prefix.command_prefix) === 0){
+            cmdHandler(message, client, false, function(err){
                 if (err) message.channel.send(err);
             });
         }
-
-        //Exception returned by the command handler
-        catch (err){
-            message.channel.send(
-                "Sorry, there has been an error =(\n\n" +
-                "Please ask <@371724846205239326> for help."
-            );
-            log.error(err);
+        else if (message.content.indexOf(config.bot_settings.prefix.mod_prefix) === 0){
+            cmdHandler(message, client, true, function(err){
+                if (err) message.channel.send(err);
+            });
         }
     }
 });
