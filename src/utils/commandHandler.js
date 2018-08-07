@@ -31,7 +31,9 @@ let commandHandler = function(message, client, isModCommand, callback){
             "Please use " + cmdPrefix + "help for a complete list of commands! :)"
         );
     }
-    else log.info("User \"" + message.author.tag + "\" (" + message.author + ") " + "performed command: " + command);
+    else log.info(
+        `User "${message.author.tag}" (${message.author}) performed ${(isModCommand ? "mod-" : "")}command: ${cmdPrefix}${command}`
+    );
 
     let cmdHandle = require(path.join(commandDir, command));
 
