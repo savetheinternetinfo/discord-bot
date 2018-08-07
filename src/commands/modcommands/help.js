@@ -15,8 +15,8 @@ exports.run = (client, message, args, callback) => {
         commandArr.push(config.bot_settings.prefix.mod_prefix + file.toLowerCase().replace(/\.js/gi, ""));
     });
 
-    let author = message.author;
-    message.channel.send(
+    message.channel.send("I've sent a PM to you, " + message.author + " :)");
+    message.author.send(
         "Hello, " + message.author + "!\n\n" +
         "Here is a list of commands:\n\n```" +
         commandArr.join(", ") +
