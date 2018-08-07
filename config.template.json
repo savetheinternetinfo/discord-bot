@@ -3,15 +3,18 @@
         "bot_token": ""
     },
     "bot_settings": {
-        "command_prefix": ".",
+        "prefix": {
+            "command_prefix": ".",
+            "mod_prefix": ">"
+        },
+        "moderator_roles": [
+            "Teamleiter",
+            "Admin"
+        ],
         "bot_status": "Saving the internet."
     },
     "logging": {
-        "channel_id": "466643167819857951",
-        "permitted_roles": [
-            "teamleiter",
-            "admin"
-        ]
+        "channel_id": "466643167819857951"
     },
     "github_hook": {
         "port": 1337,

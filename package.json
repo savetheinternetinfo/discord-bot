@@ -10,7 +10,6 @@
   "author": "SaveTheInternet",
   "license": "ISC",
   "dependencies": {
-    "discord.js": "^11.3.2",
-    "githubhook": "^1.9.3"
+    "discord.js": "^11.3.2"
   }
 }
