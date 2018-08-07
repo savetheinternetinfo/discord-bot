@@ -32,7 +32,6 @@ module.exports = function(){
         }
 
         let jsonString = "";
-
         req.on("data", function(data){
             jsonString += data;
         });
@@ -42,7 +41,8 @@ module.exports = function(){
             if (hash != req.headers["x-hub-signature"]){
                 log.warn("invalid key for push request");
                 let data = JSON.stringify({
-                    "error": "invalid key", key: hash
+                    "error": "invalid key",
+                    "key": hash
                 });
                 return res.end(data);
             }
@@ -63,4 +63,4 @@ module.exports = function(){
             return res.end(data);
         });
     }).listen(port);
-}
+};
