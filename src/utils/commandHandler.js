@@ -24,7 +24,9 @@ let commandHandler = function(message, client, isModCommand, callback){
     fs.readdirSync(commandDir).forEach(file => { commandArr.push(file.toLowerCase()); });
 
     if (!commandArr.includes(command.toLowerCase() + ".js")){
-        log.warn("User \"" + message.author.tag + "\" (" + message.author + ") " + "performed an unknown command: " + command);
+        log.warn(
+            `User "${message.author.tag}" (${message.author}) performed an unknown command: ${cmdPrefix}${command}`
+        );
         return message.channel.send(
             "Hello, " + message.author + "!\n\n" +
             "It seems like you entered an unrecognized command (" + command + ").\n\n" +
