@@ -27,6 +27,7 @@ log.info("Starting bot...");
 
 conf.init();
 hook();
+require("./utils/benisHandler")(client, Discord);
 
 process.on("unhandledRejection", function(err, promise){
     log.error("Unhandled rejection (promise: " + promise + ", reason: " + err, ")");
