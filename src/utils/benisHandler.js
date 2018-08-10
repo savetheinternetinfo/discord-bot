@@ -4,8 +4,8 @@ let conf = require("../utils/configurator");
 let log  = require("../utils/logger");
 
 const events = {
-	MESSAGE_REACTION_ADD:    "messageReactionAdd",
-	MESSAGE_REACTION_REMOVE: "messageReactionRemove",
+    MESSAGE_REACTION_ADD:    "messageReactionAdd",
+    MESSAGE_REACTION_REMOVE: "messageReactionRemove",
 };
 
 module.exports = function(client, Discord){
@@ -24,18 +24,22 @@ module.exports = function(client, Discord){
     	let reaction = message.reactions.get(emojiKey);
 
     	if (!reaction){
-    		const emoji = new Discord.Emoji(client.guilds.get(data.guild_id), data.emoji);
-    		reaction = new Discord.MessageReaction(message, emoji, 1, data.user_id === client.user.id);
+    	    const emoji = new Discord.Emoji(client.guilds.get(data.guild_id), data.emoji);
+    	    reaction = new Discord.MessageReaction(message, emoji, 1, data.user_id === client.user.id);
     	}
 
     	client.emit(events[event.t], reaction, user);
     });
 
     client.on('messageReactionAdd', (reaction, user) => {
-        console.log(`REACTION ADD EVENT: ${reaction.emoji.name}`);
+        if (!reaction.emoji.id) return;
+        let identifier =  `${data.emoji.name}:${data.emoji.id}`;
+        console.log(`REACTION ADD EVENT: ${identifier}`);
     });
 
     client.on('messageReactionRemove', (reaction, user) => {
-        console.log(`REACTION REMOVE EVENT: ${reaction.emoji.name}`);
+        if (!reaction.emoji.id) return;
+        let identifier =  `${data.emoji.name}:${data.emoji.id}`;
+        console.log(`REACTION REMOVE EVENT: ${identifier}`);
     });
 };
