@@ -9,14 +9,14 @@ let conf = require("./configurator");
 const config = conf.getConfig();
 
 let commandHandler = function(message, client, isModCommand, callback){
+    let cmdPrefix = isModCommand ? config.bot_settings.prefix.mod_prefix : config.bot_settings.prefix.command_prefix;
+    let args = message.content.slice(cmdPrefix.length).trim().split(/ +/g);
+    let command = args.shift().toLowerCase();
+
     if (isModCommand && !message.member.roles.some(r => config.bot_settings.moderator_roles.includes(r.name))){
         log.warn(`User "${message.author.tag}" (${message.author}) tried mod command "${command}" and was denied`);
         return callback("I'm sorry, " + message.author + ". You do not have permission to use that command!");
     }
-
-    let cmdPrefix = isModCommand ? config.bot_settings.prefix.mod_prefix : config.bot_settings.prefix.command_prefix;
-    let args = message.content.slice(cmdPrefix.length).trim().split(/ +/g);
-    let command = args.shift().toLowerCase();
 
     let commandArr = [];
     let commandDir = isModCommand ? path.resolve("./src/commands/modcommands") : path.resolve("./src/commands");
