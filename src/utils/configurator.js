@@ -29,7 +29,7 @@ let createFile = function(name){
     let pathOf = path.resolve(name);
     if (!fs.existsSync(pathOf)){
         log.warn("'" + name + "' file does not exist. Creating...");
-        fs.writeFile('src/db/cases.json', '', function (err) {
+        fs.writeFile(name, '', function (err) {
             if (err) return log.error(err);
             log.info(`${name} successfully created!`)
         });
