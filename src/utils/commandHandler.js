@@ -14,7 +14,7 @@ let commandHandler = function(message, client, isModCommand, callback){
     let command = args.shift().toLowerCase();
 
     if (isModCommand && !message.member.roles.some(r => config.bot_settings.moderator_roles.includes(r.name))){
-        log.warn(`User "${message.author.tag}" (${message.author}) tried mod command "${command}" and was denied`);
+        log.warn(`User "${message.author.tag}" (${message.author}) tried mod command "${cmdPrefix}${command}" and was denied`);
         return callback("I'm sorry, " + message.author + ". You do not have permission to use that command!");
     }
 
