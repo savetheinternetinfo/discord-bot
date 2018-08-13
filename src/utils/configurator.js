@@ -27,6 +27,8 @@ let createDir = function(name){
 let init = function(){
     createDir("tempdata");
     createDir("logs");
+    createDir("src/db/");
+
 };
 
 let validJson = function(obj){
