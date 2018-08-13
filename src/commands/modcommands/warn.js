@@ -21,7 +21,7 @@ exports.run = (client, message, args, callback) => {
         return;
     }
     let Embed = new Discord.RichEmbed()
-    .setColor(0xFFC107)
+    .setColor(0xFF9800)
     .setTitle(":triangular_flag_on_post: VERWARNUNG")
     .addField("MODERATOR", message.author, true)
     .addField("USER", message.mentions.members.first(), true)
@@ -30,7 +30,7 @@ exports.run = (client, message, args, callback) => {
     .setFooter("ID: " + message.mentions.members.first().id);
 
     message.channel.send(Embed);
-    cases.create(message.author,message.mentions.members.first(), reason, "Warn", date.toISOString(), cb => {
+    cases.create(message.author,message.mentions.members.first(), reason, "Warn", date.toISOString(), message, cb => {
 
     });
 
