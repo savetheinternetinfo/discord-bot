@@ -21,7 +21,11 @@ let commandHandler = function(message, client, isModCommand, callback){
     let commandArr = [];
     let commandDir = isModCommand ? path.resolve("./src/commands/modcommands") : path.resolve("./src/commands");
 
-    fs.readdirSync(commandDir).forEach(file => { commandArr.push(file.toLowerCase()); });
+    fs.readdirSync(commandDir).forEach(file => {
+        let cmdPath = path.resolve(commandDir, file);
+        let stats = fs.statSync(cmdPath);
+        if (!stats.isDirectory()) commandArr.push(file.toLowerCase());
+    });
 
     if (!commandArr.includes(command.toLowerCase() + ".js")){
         log.warn(

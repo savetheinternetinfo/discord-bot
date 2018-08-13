@@ -12,7 +12,9 @@ exports.run = (client, message, args, callback) => {
     let commandDir = path.resolve("./src/commands");
 
     fs.readdirSync(commandDir).forEach(file => {
-        commandArr.push(config.bot_settings.prefix.command_prefix + file.toLowerCase().replace(/\.js/gi, ""));
+        let cmdPath = path.resolve(commandDir, file);
+        let stats = fs.statSync(cmdPath);
+        if (!stats.isDirectory()) commandArr.push(config.bot_settings.prefix.command_prefix + file.toLowerCase().replace(/\.js/gi, ""));
     });
 
     message.channel.send(
