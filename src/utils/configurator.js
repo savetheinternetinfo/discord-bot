@@ -24,11 +24,24 @@ let createDir = function(name){
     else log.info("Found '" + name + "' directory!");
 };
 
+let createFile = function(name){
+    log.info("Checking '" + name + "' file...");
+    let pathOf = path.resolve(name);
+    if (!fs.existsSync(pathOf)){
+        log.warn("'" + name + "' file does not exist. Creating...");
+        fs.writeFile('src/db/cases.json', '', function (err) {
+            if (err) return log.error(err);
+            log.info(`${name} successfully created!`)
+        });
+    }
+    else log.info("Found '" + name + "' file!");
+};
+
 let init = function(){
     createDir("tempdata");
     createDir("logs");
     createDir("src/db/");
-
+    createFile("src/db/cases.json");
 };
 
 let validJson = function(obj){
