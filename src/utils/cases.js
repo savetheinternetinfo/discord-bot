@@ -41,7 +41,7 @@ let logpost = function(moderator, user, reason, action, ts, message) {
         .addField("BEGRÜNDUNG", reason, true)
         .setTimestamp(ts)
         .setFooter("ID: " + user.id);
-    message.guild.channels.find("id", "475599802701316107").send(Embed);
+    message.guild.channels.find("id", config.logging.channel_id).send(Embed);
 };
 
 let create = function (moderator, user, reason, action, ts, message, callback) {
