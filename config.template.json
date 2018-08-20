@@ -1,27 +1,26 @@
 {
-    "auth": {
-        "bot_token": ""
+  "auth": {
+    "bot_token": ""
+  },
+  "bot_settings": {
+    "prefix": {
+      "command_prefix": ".",
+      "mod_prefix": ">"
     },
-    "bot_settings": {
-        "prefix": {
-            "command_prefix": ".",
-            "mod_prefix": ">"
-        },
-        "moderator_roles": [
-            "Teamleiter",
-            "Admin"
-        ],
-        "bot_status": "Saving the internet."
-    },
-    "logging": {
-        "channel_id": "466643167819857951"
-    },
-    "github_hook": {
-        "port": 1337,
-        "path": "/githook",
-        "secret": "",
-        "commands": [
-            "git pull"
-        ]
-    }
+    "moderator_roles": [
+      "Moderator"
+    ],
+    "bot_status": "Saving the internet."
+  },
+  "logging": {
+    "channel_id": "466643167819857951"
+  },
+  "github_hook": {
+    "port": 1337,
+    "path": "/githook",
+    "secret": "",
+    "commands": [
+      "git pull"
+    ]
+  }
 }
