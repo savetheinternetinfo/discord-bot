@@ -1,0 +1,26 @@
+{
+  "auth": {
+    "bot_token": "NDY1MTMxOTYyMzI4MTU0MTI0.DmmH1w.OmbVsUhveU-1hHO--r2k0eG1w5g"
+  },
+  "bot_settings": {
+    "prefix": {
+      "command_prefix": ".",
+      "mod_prefix": ">"
+    },
+    "moderator_roles": [
+      "root"
+    ],
+    "bot_status": "Umher winden."
+  },
+  "logging": {
+    "channel_id": "484723467082661909"
+  },
+  "github_hook": {
+    "port": 2020,
+    "path": "/githook",
+    "secret": "",
+    "commands": [
+      "git pull"
+    ]
+  }
+}
